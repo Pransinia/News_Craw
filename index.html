@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<script>
+    const axios = require("axios");
+const ceerio = require("cheerio");
+
+var scanf = require("scanf");
+
+//HTML 코드 가져오기
+const getHTML = async() => {
+    try{
+        return await axios.get("https://news.daum.net");
+    }catch(err){
+        console.log(err);
+    }
+};
+
+var titleArr = [];
+
+//파싱
+const parsing = async()=>{
+    const html = await getHTML();
+    const $ = ceerio.load(html.data);
+    const $titlelist = $(".tit_g");
+
+    $titlelist.each((idx,node)=>{
+        const title = $(node).find(".link_txt").text();
+        //console.log(title);
+        titleArr.push(title);
+    })
+    console.log(titleArr);
+
+}
+
+parsing();
+
+</script>
+
+<body>
+    
+</body>
+</html>
